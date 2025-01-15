@@ -39,9 +39,9 @@ namespace WebShopApp.Controllers
         {
             var product = new ProductCreateVM();
             product.Brands = _brandService.GetBrands()
-            .Select(x => new BrandPairVM() 
-            { 
-                Id = x.Id,  
+            .Select(x => new BrandPairVM()
+            {
+                Id = x.Id,
                 Name = x.BrandName
             }).ToList();
             product.Categories = _categoryService.GetCategories()
@@ -56,21 +56,23 @@ namespace WebShopApp.Controllers
         // POST: ProductController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create([FromForm] ProductCreateVM product)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var createId = _productService.Create(product.ProductName, product.BrandId, product.CategoryId, product.Picture, product.Quantity, product.Price, product.Discount);
+                if (createId)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
+    
 
         // GET: ProductController/Edit/5
         public ActionResult Edit(int id)
-        {
+        { 
             return View();
         }
 
