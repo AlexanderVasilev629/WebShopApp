@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
 using WebShopApp.Core.Contracts;
 using WebShopApp.Core.Services;
 using WebShopApp.Infrastructure.Data;
@@ -37,6 +39,7 @@ namespace WebShopApp
             builder.Services.AddTransient<ICategoryService, CategoryService>();
             builder.Services.AddTransient<IBrandService, BrandService>();
             builder.Services.AddTransient<IProductService, ProductService>();
+            builder.Services.AddTransient<IOrderService, OrderService>();
 
             var app = builder.Build();
             app.PrepareDatabase();
